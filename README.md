@@ -24,3 +24,5 @@ Or
 ## Api
 
 ## LICENSE
+----
+[MIT](./LICENSE)

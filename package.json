@@ -1,6 +1,6 @@
 {
   "name": "cn-workday",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "china workday",
   "main": "dist/cn-workday.js",
   "scripts": {
@@ -15,6 +15,11 @@
   ],
   "author": "yanddage",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Y-WMS-FE/cn-workday.git"
+  },
+  "bugs": "https://github.com/Y-WMS-FE/cn-workday/issues/new",
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/preset-env": "^7.19.3",
