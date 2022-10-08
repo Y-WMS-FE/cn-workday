@@ -1,5 +1,8 @@
+const { getWorkdays } = require('../dist/cn-workday');
 
-// getWorkdays('2022-10-01', 'M');
+
+const r = getWorkdays('2022-10-01', 'M');
+console.log(r);
 // const r = isWorkday('2022-10-08')
 // console.log(r);
 // getWorkdaysByMonth()

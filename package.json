@@ -4,6 +4,7 @@
   "description": "china workday",
   "main": "index.js",
   "scripts": {
+    "dev": "rollup -c ./rollup.conf.js -w",
     "build": "rollup -c ./rollup.conf.js"
   },
   "keywords": [
