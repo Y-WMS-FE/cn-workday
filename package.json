@@ -1,8 +1,8 @@
 {
   "name": "cn-workday",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "china workday",
-  "main": "index.js",
+  "main": "dist/cn-workday.js",
   "scripts": {
     "dev": "rollup -c ./rollup.conf.js -w",
     "build": "rollup -c ./rollup.conf.js"
@@ -13,8 +13,8 @@
     "chinese workday",
     "holiday"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "yanddage",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/preset-env": "^7.19.3",
