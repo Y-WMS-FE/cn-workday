@@ -1,0 +1,27 @@
+{
+  "name": "cn-workday",
+  "version": "1.0.0",
+  "description": "china workday",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollup -c ./rollup.conf.js"
+  },
+  "keywords": [
+    "workday",
+    "china workday",
+    "chinese workday",
+    "holiday"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.3",
+    "@rollup/plugin-babel": "^6.0.0",
+    "rollup": "^2.75.3",
+    "typescript": "^4.7.2"
+  },
+  "dependencies": {
+    "date-fns": "^2.29.3"
+  }
+}
