@@ -1,6 +1,7 @@
 # cn-workday
 > 获取中国工作日情况
-[![](https://img.shields.io/badge/version-v1.0.4-success)]()
+
+[![](https://img.shields.io/badge/version-v1.0.5-success)]()
 [![](https://img.shields.io/badge/keywords-workday,china_workday,chinese_workday,holiday-blue)]()
 [![](https://img.shields.io/badge/license-MIT-success)](https://github.com/Y-WMS-FE/cn-workday/blob/main/LICENSE)
 

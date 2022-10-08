@@ -1,6 +1,6 @@
 {
   "name": "cn-workday",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "china workday",
   "main": "dist/cn-workday.js",
   "scripts": {
