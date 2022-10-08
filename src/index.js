@@ -1,8 +1,13 @@
-import { format, add, parse, parseISO } from 'date-fns'
+import { format, add, parse, parseISO, isMatch } from 'date-fns'
 import { HOLIDAYS, WEEKEND_WORKDAYS } from './holiday-source'
 
-const formatDate = (d) => {
-    return format(d, 'yyyy-MM-dd')
+const formatDate = (date) => {
+    const y = date.getFullYear();
+    let m = date.getMonth() + 1;
+    let d = date.getDate();
+    m = String(m).padStart(2, '0');
+    d = String(d).padStart(2, '0');
+    return `${y}-${m}-${d}`;
 }
 
 /**
@@ -49,7 +54,7 @@ const getWorkdaysByMonth = (_d) => {
         const month = String(m).padStart(2, '0');
         const date = String(i).padStart(2, '0');
         const dateStr = `${y}-${month}-${date}`;
-        const d = parseISO(dateStr);
+        const d = new Date(dateStr);
         if (!d.getTime()) {
             break;
         }
@@ -62,12 +67,48 @@ const getWorkdaysByMonth = (_d) => {
     return result.filter(v => v.type < 3);
 }
 
-const initDate = (d) => {
-    return d ? parseISO(d) : new Date();
+const checkDateFormat = (date) => {
+    if (!date) {
+        return new Date();
+    }
+    const str = Object.prototype.toString.call(date);
+    if (str === '[object Date]') {
+        return date;
+    }
+    if (str !== '[object String]') {
+        console.error(`不支持的类型: ${str}`)
+        return false
+    }
+    // 判读是不是为字符串
+    const r = date.split('-');
+    if (r.length === 1) {
+        return false;
+    }
+    if (r.length > 1 && r.length !== 3) {
+        console.error(`不支持的日期格式,输入修改为new Date()`)
+        return new Date();
+    }
+    const [y, m, d] = r;
+    if (
+        y.length !== 4 || +y < 2022 || m.length !== 2 || +m > 12
+        || d.length !== 2 || +d > 31
+    ) {
+        console.error(`不支持的日期格式,输入修改为new Date()`)
+        return new Date();
+    }
+    try {
+        return new Date(date);
+    } catch (e) {
+        return false;
+    }
 }
 
 const getWorkdays = (date, dateType = 'week') => {
-    const _d =initDate(date);
+    let _d = checkDateFormat(date);
+    if (!_d || !_d.getTime()) {
+        dateType = date;
+        _d = new Date();
+    }
     let workdays = [];
     switch (dateType) {
         case 'w':
@@ -94,7 +135,7 @@ const isWorkday = (date) => {
     let dateStr = date, _d = null;
     switch (t) {
         case '[object String]':
-            _d = parseISO(date);
+            _d = new Date(date);
             break;
         case '[object Date]':
             dateStr = formatDate(date);
@@ -110,5 +151,5 @@ const isWorkday = (date) => {
 
 export default {
     isWorkday,
-    getWorkdays
+    getWorkdays,
 }
