@@ -1,5 +1,7 @@
-import { format, add, parse, parseISO, isMatch } from 'date-fns'
+// import { format, add, parse, parseISO, isMatch } from 'date-fns'
+import dayjs from 'dayjs';
 import { HOLIDAYS, WEEKEND_WORKDAYS } from './holiday-source'
+import {re} from "@babel/core/lib/vendor/import-meta-resolve";
 
 const formatDate = (date) => {
     const y = date.getFullYear();
@@ -33,14 +35,12 @@ const getWorkdaysByWeek = (_d) => {
     const day = _d.getDay();
     const result = [];
     for (let i = 1; i <= 7; i ++) {
-        const d = add(_d, {
-            days: i - (day || 7)
-        });
-        const dateStr = formatDate(d);
+        const d = dayjs((_d)).add(i - (day || 7), 'day');
+        const dateStr = formatDate(d.$d);
         result.push({
             dateStr,
-            d,
-            type: formatType(dateStr, d.getDay())
+            d: d.$d,
+            type: formatType(dateStr, d.day())
         });
     }
     return result.filter(v => v.type < 3);
@@ -55,7 +55,7 @@ const getWorkdaysByMonth = (_d) => {
         const date = String(i).padStart(2, '0');
         const dateStr = `${y}-${month}-${date}`;
         const d = new Date(dateStr);
-        if (!d.getTime()) {
+        if (!d.getTime() || d.getMonth() !== _d.getMonth()) {
             break;
         }
         result.push({
@@ -85,7 +85,7 @@ const checkDateFormat = (date) => {
         return false;
     }
     if (r.length > 1 && r.length !== 3) {
-        console.error(`不支持的日期格式,输入修改为new Date()`)
+        console.error('不支持的日期格式,输入修改为new Date()')
         return new Date();
     }
     const [y, m, d] = r;
@@ -93,11 +93,16 @@ const checkDateFormat = (date) => {
         y.length !== 4 || +y < 2022 || m.length !== 2 || +m > 12
         || d.length !== 2 || +d > 31
     ) {
-        console.error(`不支持的日期格式,输入修改为new Date()`)
+        console.error('不支持的日期格式,输入修改为new Date()')
         return new Date();
     }
     try {
-        return new Date(date);
+        const r = new Date(date);
+        if (r.getMonth() + 1 === +m) {
+            return r
+        }
+        console.error('不支持的日期格式,输入修改为new Date()')
+        return new Date();
     } catch (e) {
         return false;
     }
@@ -149,7 +154,39 @@ const isWorkday = (date) => {
     return formatType(dateStr, _d.getDay()) < 3;
 };
 
+const getWorkdaysBetween = (date1, date2) => {
+    if (!date1) {
+        throw new Error('参数不能为空');
+    }
+    if (!dayjs(date1, 'YYYY-MM-DD', true).isValid() || !dayjs(date2, 'YYYY-MM-DD', true).isValid()) {
+        throw new Error('日期不正确');
+
+    }
+    if (!date2) {
+        date2 = formatDate(new Date());
+    }
+    const result = [];
+    let st = date1;
+    let et = date2;
+    if (dayjs(st).isAfter(et)) {
+        et = date2;
+        st = date1;
+    }
+    let current = dayjs(st);
+    while (!current.isAfter(et)) {
+        let dateStr = formatDate(current.$d);
+        result.push({
+            dateStr: dateStr,
+            d: current.$d,
+            type:formatType(dateStr, current.day())
+        });
+        current = current.add('1', 'day');
+    }
+    return result.filter(v => v.type < 3);
+}
+
 export default {
     isWorkday,
     getWorkdays,
+    getWorkdaysBetween,
 }
