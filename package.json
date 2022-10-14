@@ -1,13 +1,12 @@
 {
   "name": "cn-workday",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "china workday",
   "main": "dist/cn-workday.js",
   "scripts": {
     "dev": "rollup -c ./rollup.conf.js -w",
-    "build": "rollup -c ./rollup.conf.js"
+    "build": "rollup -c ./rollup.conf.js --bundleConfigAsCjs"
   },
-  "type": "module",
   "keywords": [
     "workday",
     "china workday",
