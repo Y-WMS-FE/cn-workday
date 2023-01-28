@@ -5,7 +5,8 @@
   "main": "dist/cn-workday.js",
   "scripts": {
     "dev": "rollup -c ./rollup.conf.js -w",
-    "build": "rollup -c ./rollup.conf.js --bundleConfigAsCjs"
+    "build": "rollup -c ./rollup.conf.js --bundleConfigAsCjs",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "workday",
