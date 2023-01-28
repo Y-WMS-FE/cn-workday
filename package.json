@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "rollup -c ./rollup.conf.js -w",
     "build": "rollup -c ./rollup.conf.js --bundleConfigAsCjs",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "workday",
